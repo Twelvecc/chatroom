@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Chat room</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<style type="text/css">
+    h1{
+        font-size: 20px;
+        text-align: center;
+        color:dimgray;
+    }
+    ul{
+        text-align: left;
+    }
+    #row{
+        height:500px;
+    }
+    .chat-cotainer{
+        text-align: left;
+    }
+</style>
+
+<body>
+    <div id="header" style="background:#3d3d3d">
+            <span style="text-align:left;color:aliceblue">欢迎来到
+            <s>丑不拉几的</s>
+            聊天室！</span>
+        <hr/>
+    </div>
+
+    <div class="chat-cotainer">
+        <!--信息-->
+        <div id="row">
+                <ul id="chat"></ul> <!--聊天记录-->
+
+
+        </div>
+        
+        <div id="sendmes">
+                <p>用户名:<input type="text" name="username"></p>
+                <textarea name="message"></textarea>
+                <br/>
+                <button id="send">发送</button>
+        </div>
+
+    </div>
+
+    <script>
+        function addthing () {
+        var thing=document.getElementById("todothing").value;
+        document.getElementById("todothing").value="";
+        var myli = document.createElement('li');
+        myli.innerHTML=thing+"&nbsp;&nbsp;<button onclick='this.parentNode.parentNode.removeChild(this.parentNode)'>删除</button>";
+        document.getElementById('list').appendChild(myli); 
+      }
+      function init()
+      {
+        document.getElementById("btn").onclick=addthing;
+      }
+      init();
+    </script>
+</body>
+</html>
