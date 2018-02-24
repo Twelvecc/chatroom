@@ -1,8 +1,9 @@
+
 <!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Chat room</title>
+    <title>一个简陋的聊天室</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -24,6 +25,8 @@
 </style>
 
 <body>
+    <script src="/socket.io/socket.io.js"></script> 
+    <script src="/socket.io/client.js"></script> 
     <div id="header" style="background:#3d3d3d">
             <span style="text-align:left;color:aliceblue">欢迎来到
             <s>丑不拉几的</s>
@@ -34,33 +37,48 @@
     <div class="chat-cotainer">
         <!--信息-->
         <div id="row">
-                <ul id="chat"></ul> <!--聊天记录-->
-
-
+            <span id="test"></span>
+            <ul id="chat"></ul> <!--聊天记录-->
         </div>
-        
-        <div id="sendmes">
+
+        <div id="sendmsg">
                 <p>用户名:<input type="text" name="username"></p>
                 <textarea name="message"></textarea>
                 <br/>
-                <button id="send">发送</button>
+                <button id="send" onclick="msgSend()">发送</button>
         </div>
 
     </div>
 
     <script>
-        function addthing () {
-        var thing=document.getElementById("todothing").value;
-        document.getElementById("todothing").value="";
-        var myli = document.createElement('li');
-        myli.innerHTML=thing+"&nbsp;&nbsp;<button onclick='this.parentNode.parentNode.removeChild(this.parentNode)'>删除</button>";
-        document.getElementById('list').appendChild(myli); 
-      }
-      function init()
-      {
-        document.getElementById("btn").onclick=addthing;
-      }
-      init();
+        var socket = io.connect();
+        socket.on('connect',function(){
+    //do something
+});
+        function msgSend(){
+            var msg=document.getElementsByName("message")[0].value;
+            var user=document.getElementsByName("username")[0].value;
+            /*
+            var data=[];
+            var json={};
+            json.user=user;
+            json.msg=msg;
+            data.push(json);
+            /*var myli2 = document.createElement('li');
+            myli2.innerHTML=data[0].user+":"+data[0].msg;
+            document.getElementById('chat').appendChild(myli2); */
+            socket.emit('message',{user:user,msg:msg});
+            socket.on('boardcast', function(data){
+             //显示这条新消息
+             var d=new Date();
+            var myli = document.createElement('li');
+            myli.innerHTML=data.user+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()+"<br/>"+data.msg;
+            document.getElementById('chat').appendChild(myli); 
+            //document.getElementById('test').innerHTML="aaa";
+            $('#test').append("发送成功");           
+            //$('#chat').append($('<li>').text(data));
+            });   
+        }
     </script>
 </body>
 </html>
